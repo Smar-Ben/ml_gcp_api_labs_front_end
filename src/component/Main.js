@@ -3,8 +3,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
-import React, { useState } from "react";
-
+import React, { useState, Fragment } from "react";
+import CardDescription from "./CardDescription";
 const getTitleName = (apiName) => {
   const apiList = {
     cnlEntities: "Cloud Natural Language API: Entities Anlysis",
@@ -20,16 +20,15 @@ const getTitleName = (apiName) => {
 
 function Main() {
   const [apiName, setApiName] = useState("");
-
   return (
     <Container
       className="p-5 d-flex flex-column justify-content-start align-items-center flex-wrap"
       fluid
     >
       <Col className="mb-4">
-        <h2>{getTitleName(apiName)}</h2>
+        <h2 style={{ "text-align": "center" }}>{getTitleName(apiName)}</h2>
       </Col>
-      <Col>
+      <Col className="mb-4">
         <Dropdown>
           <Dropdown.Toggle color="blue" id="dropdown-basic">
             Choose your ML API
@@ -104,6 +103,13 @@ function Main() {
           </Dropdown.Menu>
         </Dropdown>
       </Col>
+      {apiName !== "" && (
+        <Fragment>
+          <Col>
+            <CardDescription apiName={apiName}></CardDescription>
+          </Col>
+        </Fragment>
+      )}
     </Container>
   );
 }
