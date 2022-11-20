@@ -5,8 +5,8 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   return (
-    <Container className="vh-100 px-0" fluid={true}>
-      <Row className="flex-column h-100 g-0">
+    <Container className="px-0" fluid={true}>
+      <Row className="flex-column  g-0">
         <Col xs={12}>
           <Header></Header>
         </Col>

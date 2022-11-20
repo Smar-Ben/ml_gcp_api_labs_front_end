@@ -5,6 +5,9 @@ import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
 import React, { useState, Fragment } from "react";
 import CardDescription from "./CardDescription";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
+
 const getTitleName = (apiName) => {
   const apiList = {
     cnlEntities: "Cloud Natural Language API: Entities Analysis",
@@ -20,6 +23,7 @@ const getTitleName = (apiName) => {
 
 function Main() {
   const [apiName, setApiName] = useState("");
+  const [textToSend, setTextToSend] = useState("");
   return (
     <Container
       className="p-5 d-flex flex-column justify-content-start align-items-center flex-wrap"
@@ -105,8 +109,29 @@ function Main() {
       </Col>
       {apiName !== "" && (
         <Fragment>
-          <Col>
+          <Col
+            xs={8}
+            className="mb-4"
+            style={{ "min-width": "250px", "max-width": "700px" }}
+          >
             <CardDescription apiName={apiName}></CardDescription>
+          </Col>
+          <Col
+            xs={8}
+            className="mb-4"
+            style={{ "min-width": "250px", "max-width": "700px" }}
+          >
+            <FloatingLabel
+              style={{ "text-align": "center" }}
+              label="Text to send to the API"
+            >
+              <Form.Control
+                as="textarea"
+                placeholder="Leave a comment here"
+                style={{ height: "100px" }}
+                onChange={(e) => setTextToSend(e.target.value)}
+              />
+            </FloatingLabel>
           </Col>
         </Fragment>
       )}
