@@ -7,11 +7,11 @@ import Card from "react-bootstrap/Card";
 
 const getTitleCard = (apiName) => {
   const apiList = {
-    cnlEntities: "Cloud Natural Language API: Entities Anlysis",
-    cnlSentiment: "Cloud Natural Language API: Sentiment Anlysis",
+    cnlEntities: "Cloud Natural Language API: Entities Analysis",
+    cnlSentiment: "Cloud Natural Language API: Sentiment Analysis",
     cnlSentimentEntities:
-      "Cloud Natural Language API: Sentiment/Entities Anlysis",
-    cnlClassify: "Cloud Natural Language API: Classify Anlysis",
+      "Cloud Natural Language API: Sentiment/Entities Analysis",
+    cnlClassify: "Cloud Natural Language API: Classify Analysis",
     textToSpeech: "Text to Speech API",
     translateAI: "Translation AI : French to English",
   };
