@@ -3,10 +3,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import CardDescription from "./CardDescription";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 const getTitleName = (apiName) => {
   const apiList = {
@@ -22,6 +23,23 @@ const getTitleName = (apiName) => {
 };
 
 function Main() {
+  const addPosts = async (title, body) => {
+    //TODO : replace url with api name
+    let response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "title",
+        body: "body",
+        userId: Math.random().toString(36).slice(2),
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    let data = await response.json();
+    console.log(data);
+  };
+
   const [apiName, setApiName] = useState("");
   const [textToSend, setTextToSend] = useState("");
   return (
@@ -30,7 +48,7 @@ function Main() {
       fluid
     >
       <Col className="mb-4">
-        <h2 style={{ "text-align": "center" }}>{getTitleName(apiName)}</h2>
+        <h2 style={{ textAlign: "center" }}>{getTitleName(apiName)}</h2>
       </Col>
       <Col className="mb-4">
         <Dropdown>
@@ -112,17 +130,17 @@ function Main() {
           <Col
             xs={8}
             className="mb-4"
-            style={{ "min-width": "250px", "max-width": "700px" }}
+            style={{ minWidth: "250px", maxWidth: "700px" }}
           >
             <CardDescription apiName={apiName}></CardDescription>
           </Col>
           <Col
             xs={8}
             className="mb-4"
-            style={{ "min-width": "250px", "max-width": "700px" }}
+            style={{ minWidth: "250px", maxWidth: "700px" }}
           >
             <FloatingLabel
-              style={{ "text-align": "center" }}
+              style={{ textAlign: "center" }}
               label="Text to send to the API"
             >
               <Form.Control
@@ -132,6 +150,11 @@ function Main() {
                 onChange={(e) => setTextToSend(e.target.value)}
               />
             </FloatingLabel>
+          </Col>
+          <Col>
+            <Button variant="primary" size="lg" onClick={addPosts}>
+              Submit text
+            </Button>
           </Col>
         </Fragment>
       )}
