@@ -1,9 +1,9 @@
-import { Container, Col } from "react-bootstrap";
+import { Container, Col, DropdownButton } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import CardDescription from "./CardDescription";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
@@ -13,8 +13,6 @@ const getTitleName = (apiName) => {
   const apiList = {
     cnlEntities: "Cloud Natural Language API: Entities Analysis",
     cnlSentiment: "Cloud Natural Language API: Sentiment Analysis",
-    cnlSentimentEntities:
-      "Cloud Natural Language API: Sentiment/Entities Analysis",
     cnlClassify: "Cloud Natural Language API: Classify Analysis",
     textToSpeech: "Text to Speech API",
     translateAI: "Translation AI : French to English",
@@ -23,7 +21,7 @@ const getTitleName = (apiName) => {
 };
 
 function Main() {
-  const addPosts = async (title, body) => {
+  const addPosts = async (textToSend) => {
     //TODO : replace url with api name
     let response = await fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST",
@@ -38,10 +36,12 @@ function Main() {
     });
     let data = await response.json();
     console.log(data);
+    console.log(textToSend);
   };
 
   const [apiName, setApiName] = useState("");
   const [textToSend, setTextToSend] = useState("");
+  const [targetLanguage, setTargetLanguage] = useState("");
   return (
     <Container
       className="p-5 d-flex flex-column justify-content-start align-items-center flex-wrap"
@@ -77,17 +77,6 @@ function Main() {
                 className="d-inline-block align-top"
               />{" "}
               Cloud Natural Language : Sentiment
-            </Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setApiName("cnlSentimentEntities")}>
-              <img
-                alt=""
-                src={CloudNaturalLogo}
-                width="25"
-                height="25"
-                className="d-inline-block align-top"
-              />{" "}
-              Cloud Natural Language : SentimentEntities
             </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => setApiName("cnlClassify")}>
@@ -151,8 +140,30 @@ function Main() {
               />
             </FloatingLabel>
           </Col>
-          <Col>
-            <Button variant="primary" size="lg" onClick={addPosts}>
+
+          <Col
+            className="col-8 d-flex justify-content-around"
+            style={{ minWidth: "250px", maxWidth: "700px" }}
+          >
+            {apiName === "translateAI" && (
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={`Language destination ${targetLanguage}`}
+                size="lg"
+              >
+                <Dropdown.Item onClick={() => setTargetLanguage("FR")}>
+                  FR
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => setTargetLanguage("EN")}>
+                  EN
+                </Dropdown.Item>
+              </DropdownButton>
+            )}
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => addPosts(textToSend)}
+            >
               Submit text
             </Button>
           </Col>

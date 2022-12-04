@@ -9,8 +9,6 @@ const getTitleCard = (apiName) => {
   const apiList = {
     cnlEntities: "Cloud Natural Language API: Entities Analysis",
     cnlSentiment: "Cloud Natural Language API: Sentiment Analysis",
-    cnlSentimentEntities:
-      "Cloud Natural Language API: Sentiment/Entities Analysis",
     cnlClassify: "Cloud Natural Language API: Classify Analysis",
     textToSpeech: "Text to Speech API",
     translateAI: "Translation AI : French to English",
@@ -22,7 +20,6 @@ const getTitleName = (apiName) => {
   const cloudNaturalLanguageArray = [
     "cnlEntities",
     "cnlSentiment",
-    "cnlSentimentEntities",
     "cnlClassify",
   ];
   if (cloudNaturalLanguageArray.includes(apiName))
@@ -35,7 +32,6 @@ const getLogo = (apiName) => {
   const cloudNaturalLanguageArray = [
     "cnlEntities",
     "cnlSentiment",
-    "cnlSentimentEntities",
     "cnlClassify",
   ];
   if (cloudNaturalLanguageArray.includes(apiName)) return CloudNaturalLogo;
@@ -49,14 +45,12 @@ const getDescription = (apiName) => {
       "Entities Analysis inspecte le texte donné pour trouver des entités connues (des noms propres tels que des personnages publics, des points de repère, etc.), et renvoie des informations sur ces entités.",
     cnlSentiment:
       "Sentiment Analysis examine le texte donné et identifie l'opinion émotionnelle dominante dans le texte, en particulier pour déterminer si l'attitude de l'auteur est positive, négative ou neutre.",
-    cnlSentimentEntities:
-      "Sentiment/Entities Analysis combine l'analyse des entités et l'analyse des sentiments pour tenter de déterminer le sentiment (positif ou négatif) exprimé à propos des entités d'un texte. Le sentiment de l'entité est représenté par un score numérique et des valeurs de magnitude, et il est déterminé pour chaque mention d'une entité.",
     cnlClassify:
       "Classify Analysis analyse un document et renvoie une liste de catégories de contenu qui s'appliquent au texte présent dans le document",
     textToSpeech:
       "Text to Speech permet de convertir du texte en discours naturel à l'aide d'une API optimisée par les meilleures technologies d'IA de Google.",
     translateAI:
-      "Cloud Translation permet à vos sites Web et à vos applications de traduire dynamiquement du texte français en anglais par programmation via une API. Translation utilise un modèle de machine learning pré-entraîné de Google ou personnalisé pour traduire du texte.",
+      "Cloud Translation permet à vos sites Web et à vos applications de traduire dynamiquement du texte français en anglais par programmation via une API. Translation utilise un modèle de machine learning pré-entraîné de Google ou personnalisé pour traduire du texte. Sur ce site il est possible de traduire un texte (de n'importe quelle langue) en français ou en anglais",
   };
   return apiList[apiName] ?? "Choose your API";
 };
@@ -67,8 +61,6 @@ const getLink = (apiName) => {
       "https://cloud.google.com/natural-language/docs/analyzing-entities",
     cnlSentiment:
       "https://cloud.google.com/natural-language/docs/analyzing-sentiment",
-    cnlSentimentEntities:
-      "https://cloud.google.com/natural-language/docs/analyzing-entity-sentiment",
     cnlClassify:
       "https://cloud.google.com/natural-language/docs/classifying-text",
     textToSpeech: "https://cloud.google.com/text-to-speech/docs/basics",
