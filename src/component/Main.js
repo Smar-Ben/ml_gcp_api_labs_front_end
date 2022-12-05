@@ -8,6 +8,8 @@ import CardDescription from "./CardDescription";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Result from "./Result";
+import Spinner from "react-bootstrap/Spinner";
 
 const getTitleName = (apiName) => {
   const apiList = {
@@ -21,27 +23,58 @@ const getTitleName = (apiName) => {
 };
 
 function Main() {
-  const addPosts = async (textToSend) => {
-    //TODO : replace url with api name
-    let response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      body: JSON.stringify({
-        title: "title",
-        body: "body",
-        userId: Math.random().toString(36).slice(2),
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
+  const sendToAPI = async (apiName, textToSend, targetLanguage = "") => {
+    setIsCalledFinish(true);
+    //TODO : replace url with api nam
+    const apiList = {
+      cnlEntities: "cnl/entity",
+      cnlSentiment: "cnl/sentiment",
+      cnlClassify: "cnl/classify",
+      textToSpeech: "text_to_speech/text_to_speech",
+      translateAI: "cloud_translate/translation",
+    };
+    const params = new URLSearchParams();
+    params.set("text", textToSend);
+    if (apiName === "translateAI")
+      params.set("target_language", targetLanguage);
+    let route = `http://127.0.0.1:8000/api/${
+      apiList[apiName]
+    }?${params.toString()}`;
+    route.replace("\n", "");
+    let headers;
+    if (apiName === "textToSpeech") {
+      headers = {
+        "Content-type": "audio/*",
+      };
+    } else {
+      headers = {
+        "Content-type": "application/json",
+      };
+    }
+    let response = await fetch(route, {
+      method: "GET", // *GET, POST, PUT, DELETE, etc
+      headers: headers,
     });
-    let data = await response.json();
+    let data;
+    setIsApiCalled(true);
+    console.log(isApiCalled);
+    if (apiName === "textToSpeech") {
+      data = await response.blob();
+    } else {
+      data = await response.json();
+    }
+    setResponseApi(data);
+    setIsCalledFinish(false);
     console.log(data);
-    console.log(textToSend);
   };
 
   const [apiName, setApiName] = useState("");
   const [textToSend, setTextToSend] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
+  const [responseApi, setResponseApi] = useState({});
+  const [isApiCalled, setIsApiCalled] = useState(false);
+  const [isCalledFinish, setIsCalledFinish] = useState(false);
+
   return (
     <Container
       className="p-5 d-flex flex-column justify-content-start align-items-center flex-wrap"
@@ -57,7 +90,12 @@ function Main() {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => setApiName("cnlEntities")}>
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("cnlEntities");
+                setIsApiCalled(false);
+              }}
+            >
               <img
                 alt=""
                 src={CloudNaturalLogo}
@@ -68,7 +106,12 @@ function Main() {
               Cloud Natural Language : Entities
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setApiName("cnlSentiment")}>
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("cnlSentiment");
+                setIsApiCalled(false);
+              }}
+            >
               <img
                 alt=""
                 src={CloudNaturalLogo}
@@ -79,7 +122,12 @@ function Main() {
               Cloud Natural Language : Sentiment
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setApiName("cnlClassify")}>
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("cnlClassify");
+                setIsApiCalled(false);
+              }}
+            >
               <img
                 alt=""
                 src={CloudNaturalLogo}
@@ -90,7 +138,12 @@ function Main() {
               Cloud Natural Language : Classify
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setApiName("textToSpeech")}>
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("textToSpeech");
+                setIsApiCalled(false);
+              }}
+            >
               <img
                 alt=""
                 src={TranslationIALogo}
@@ -101,7 +154,12 @@ function Main() {
               Text to Speech API
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setApiName("translateAI")}>
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("translateAI");
+                setIsApiCalled(false);
+              }}
+            >
               <img
                 alt=""
                 src={TextToSpeech}
@@ -145,27 +203,41 @@ function Main() {
             className="col-8 d-flex justify-content-around"
             style={{ minWidth: "250px", maxWidth: "700px" }}
           >
-            {apiName === "translateAI" && (
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={`Language destination ${targetLanguage}`}
-                size="lg"
-              >
-                <Dropdown.Item onClick={() => setTargetLanguage("FR")}>
-                  FR
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => setTargetLanguage("EN")}>
-                  EN
-                </Dropdown.Item>
-              </DropdownButton>
+            {isCalledFinish === true ? (
+              <Spinner animation="border" role="status" variant="primary">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : (
+              <Fragment>
+                {apiName === "translateAI" && (
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    title={`Language destination ${targetLanguage}`}
+                    size="lg"
+                  >
+                    <Dropdown.Item onClick={() => setTargetLanguage("fr")}>
+                      FR
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => setTargetLanguage("en")}>
+                      EN
+                    </Dropdown.Item>
+                  </DropdownButton>
+                )}
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => sendToAPI(apiName, textToSend, targetLanguage)}
+                >
+                  Submit text
+                </Button>
+              </Fragment>
             )}
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => addPosts(textToSend)}
-            >
-              Submit text
-            </Button>
+          </Col>
+          <Col
+            className="col-8 d-flex justify-content-around"
+            style={{ minWidth: "250px", maxWidth: "700px" }}
+          >
+            {isApiCalled && <Result></Result>}
           </Col>
         </Fragment>
       )}
