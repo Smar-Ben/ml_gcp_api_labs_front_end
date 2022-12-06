@@ -56,8 +56,6 @@ function Main() {
       headers: headers,
     });
     let data;
-    setIsApiCalled(true);
-    console.log(isApiCalled);
     if (apiName === "textToSpeech") {
       data = await response.blob();
     } else {
@@ -65,7 +63,7 @@ function Main() {
     }
     setResponseApi(data);
     setIsCalledFinish(false);
-    console.log(data);
+    setIsApiCalled(true);
   };
 
   const [apiName, setApiName] = useState("");
@@ -198,9 +196,16 @@ function Main() {
               />
             </FloatingLabel>
           </Col>
-
           <Col
-            className="col-8 d-flex justify-content-around"
+            className="col-8 d-flex justify-content-around mb-4"
+            style={{ minWidth: "250px", maxWidth: "700px" }}
+          >
+            {isApiCalled && (
+              <Result responseApi={responseApi} apiName={apiName}></Result>
+            )}
+          </Col>
+          <Col
+            className="col-8 d-flex justify-content-around "
             style={{ minWidth: "250px", maxWidth: "700px" }}
           >
             {isCalledFinish === true ? (
@@ -232,12 +237,6 @@ function Main() {
                 </Button>
               </Fragment>
             )}
-          </Col>
-          <Col
-            className="col-8 d-flex justify-content-around"
-            style={{ minWidth: "250px", maxWidth: "700px" }}
-          >
-            {isApiCalled && <Result></Result>}
           </Col>
         </Fragment>
       )}
