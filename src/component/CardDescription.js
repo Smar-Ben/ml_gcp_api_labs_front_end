@@ -42,13 +42,13 @@ const getLogo = (apiName) => {
 const getDescription = (apiName) => {
   const apiList = {
     cnlEntities:
-      "Entities Analysis inspecte le texte donné pour trouver des entités connues (des noms propres tels que des personnages publics, des points de repère, etc.), et renvoie des informations sur ces entités.",
+      "Entities Analysis inspecte le texte donné pour trouver des entités connues (des noms propres tels que des personnages publics, des points de repère, etc.), et renvoie des informations sur ces entités. La langue du texte est automatiquement détecté par Cloud Natural Language.",
     cnlSentiment:
-      "Sentiment Analysis examine le texte donné et identifie l'opinion émotionnelle dominante dans le texte, en particulier pour déterminer si l'attitude de l'auteur est positive, négative ou neutre.",
+      "Sentiment Analysis examine le texte donné et identifie l'opinion émotionnelle dominante dans le texte, en particulier pour déterminer si l'attitude de l'auteur est positive, négative ou neutre. La langue du texte est automatiquement détecté par Cloud Natural Language",
     cnlClassify:
-      "Classify Analysis analyse un document et renvoie une liste de catégories de contenu qui s'appliquent au texte présent dans le document",
+      "Classify Analysis analyse un document et renvoie une liste de catégories de contenu qui s'appliquent au texte présent dans le document. Fonctionne uniquement en anglais",
     textToSpeech:
-      "Text to Speech permet de convertir du texte en discours naturel à l'aide d'une API optimisée par les meilleures technologies d'IA de Google.",
+      "Text to Speech permet de convertir du texte en discours naturel à l'aide d'une API optimisée par les meilleures technologies d'IA de Google. Sur ce site, il est seulement possible d'avoir une voix anglaise.",
     translateAI:
       "Cloud Translation permet à vos sites Web et à vos applications de traduire dynamiquement du texte français en anglais par programmation via une API. Translation utilise un modèle de machine learning pré-entraîné de Google ou personnalisé pour traduire du texte. Sur ce site il est possible de traduire un texte (de n'importe quelle langue) en français ou en anglais",
   };
