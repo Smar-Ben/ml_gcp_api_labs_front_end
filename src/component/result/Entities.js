@@ -12,7 +12,6 @@ const Entities = (props) => {
       hover
       style={{
         minWidth: "350px",
-        "table-layout": "fixed",
         "overflow-wrap": "break-word",
       }}
     >
@@ -21,7 +20,7 @@ const Entities = (props) => {
           <th>Entité </th>
           <th>Type</th>
           <th>Score</th>
-          <th>Link</th>
+          <th>Wiki</th>
         </tr>
       </thead>
       <tbody>
