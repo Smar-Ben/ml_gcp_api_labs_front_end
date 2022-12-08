@@ -22,7 +22,7 @@ const Entities = (props) => {
       hover
       style={{
         minWidth: "350px",
-        "overflow-wrap": "break-word",
+        overflowWrap: "break-word",
       }}
     >
       <thead>
