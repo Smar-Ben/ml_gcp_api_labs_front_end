@@ -201,7 +201,11 @@ function Main() {
             style={{ minWidth: "250px", maxWidth: "700px" }}
           >
             {isApiCalled && (
-              <Result responseApi={responseApi} apiName={apiName}></Result>
+              <Result
+                responseApi={responseApi}
+                apiName={apiName}
+                targetLanguage={targetLanguage}
+              ></Result>
             )}
           </Col>
           <Col
