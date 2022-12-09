@@ -186,7 +186,7 @@ function Main() {
           >
             <FloatingLabel
               style={{ textAlign: "center" }}
-              label="Text to send to the API"
+              label={textToSend.length === 0 ? "Text to send to the API" : ""}
             >
               <Form.Control
                 as="textarea"
