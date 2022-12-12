@@ -6,7 +6,7 @@ function Translate(props) {
     <Card>
       <Card.Body>
         <Card.Title className="text-center">
-          Traduction avec Cloud T ranslate
+          Traduction avec Cloud Translate
         </Card.Title>
         <Card.Subtitle className="mb-2 text-center">
           Langue originale {props.responseApi.language_detected}

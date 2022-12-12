@@ -3,13 +3,16 @@ import Dropdown from "react-bootstrap/Dropdown";
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import CardDescription from "./CardDescription";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Result from "./Result";
 import Spinner from "react-bootstrap/Spinner";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const getTitleName = (apiName) => {
   const apiList = {
@@ -22,7 +25,13 @@ const getTitleName = (apiName) => {
   return apiList[apiName] ?? "Choose your API";
 };
 
-function Main() {
+const Main = (props) => {
+  const showToaster = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+
   const sendToAPI = async (apiName, textToSend, targetLanguage = "") => {
     setIsCalledFinish(true);
     //TODO : replace url with api nam
@@ -36,34 +45,31 @@ function Main() {
     const params = new URLSearchParams();
     params.set("text", textToSend);
     if (apiName === "translateAI")
-      params.set("target_language", targetLanguage);
+      if (targetLanguage === "") {
+        showToaster("Select a destination language for the translation");
+      } else {
+        params.set("target_language", targetLanguage);
+      }
+
     let route = `http://127.0.0.1:8000/api/${
       apiList[apiName]
     }?${params.toString()}`;
     route.replace("\n", "");
-    let headers;
-    if (apiName === "textToSpeech") {
-      headers = {
-        "Content-type": "audio/*",
-      };
-    } else {
-      headers = {
-        "Content-type": "application/json",
-      };
-    }
-    let response = await fetch(route, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc
-      headers: headers,
-    });
-    let data;
-    if (apiName === "textToSpeech") {
-      data = await response.blob();
-    } else {
-      data = await response.json();
-    }
-    setResponseApi(data);
-    setIsCalledFinish(false);
-    setIsApiCalled(true);
+
+    axios
+      .get(route)
+      .then((response) => {
+        setIsCalledFinish(false);
+        setIsApiCalled(true);
+        setResponseApi(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsCalledFinish(false);
+        setIsApiCalled(true);
+        const response = error["response"];
+        showToaster(response.data.detail);
+      });
   };
 
   const [apiName, setApiName] = useState("");
@@ -72,6 +78,14 @@ function Main() {
   const [responseApi, setResponseApi] = useState({});
   const [isApiCalled, setIsApiCalled] = useState(false);
   const [isCalledFinish, setIsCalledFinish] = useState(false);
+
+  useEffect(() => {
+    console.log("foo");
+    setIsApiCalled(false);
+    setTextToSend("");
+    setTargetLanguage("");
+    setResponseApi({});
+  }, [apiName]);
 
   return (
     <Container
@@ -91,7 +105,6 @@ function Main() {
             <Dropdown.Item
               onClick={() => {
                 setApiName("cnlEntities");
-                setIsApiCalled(false);
               }}
             >
               <img
@@ -107,7 +120,6 @@ function Main() {
             <Dropdown.Item
               onClick={() => {
                 setApiName("cnlSentiment");
-                setIsApiCalled(false);
               }}
             >
               <img
@@ -123,7 +135,6 @@ function Main() {
             <Dropdown.Item
               onClick={() => {
                 setApiName("cnlClassify");
-                setIsApiCalled(false);
               }}
             >
               <img
@@ -139,7 +150,6 @@ function Main() {
             <Dropdown.Item
               onClick={() => {
                 setApiName("textToSpeech");
-                setIsApiCalled(false);
               }}
             >
               <img
@@ -155,7 +165,6 @@ function Main() {
             <Dropdown.Item
               onClick={() => {
                 setApiName("translateAI");
-                setIsApiCalled(false);
               }}
             >
               <img
@@ -193,6 +202,7 @@ function Main() {
                 placeholder="Leave a comment here"
                 style={{ height: "100px" }}
                 onChange={(e) => setTextToSend(e.target.value)}
+                value={textToSend}
               />
             </FloatingLabel>
           </Col>
@@ -200,7 +210,7 @@ function Main() {
             className="col-8 d-flex justify-content-around mb-4"
             style={{ minWidth: "250px", maxWidth: "700px" }}
           >
-            {isApiCalled && (
+            {isApiCalled && Object.keys(responseApi).length !== 0 && (
               <Result
                 responseApi={responseApi}
                 apiName={apiName}
@@ -242,10 +252,13 @@ function Main() {
               </Fragment>
             )}
           </Col>
+          <Col>
+            <ToastContainer />
+          </Col>
         </Fragment>
       )}
     </Container>
   );
-}
+};
 
 export default Main;

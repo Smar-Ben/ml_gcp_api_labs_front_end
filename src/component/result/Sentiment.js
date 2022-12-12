@@ -51,6 +51,7 @@ function Sentiment(props) {
               src={getImg(props.responseApi.score)}
               width="40"
               height="40"
+              alt="smiley"
             ></img>{" "}
           </ListGroup.Item>
           <ListGroup.Item className="text-center">
