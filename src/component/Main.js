@@ -5,13 +5,12 @@ import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
 import React, { useState, Fragment, useEffect } from "react";
 import CardDescription from "./CardDescription";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Result from "./Result";
 import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import TextSender from "./TextSender";
 import "react-toastify/dist/ReactToastify.css";
 
 const getTitleName = (apiName) => {
@@ -70,6 +69,10 @@ const Main = (props) => {
         const response = error["response"];
         showToaster(response.data.detail);
       });
+  };
+
+  const changeText = (text) => {
+    setTextToSend(text);
   };
 
   const [apiName, setApiName] = useState("");
@@ -190,21 +193,18 @@ const Main = (props) => {
           </Col>
           <Col
             xs={8}
-            className="mb-4"
+            className={
+              apiName === "textToSpeech"
+                ? "col-8 d-flex justify-content-around mb-4"
+                : ""
+            }
             style={{ minWidth: "250px", maxWidth: "700px" }}
           >
-            <FloatingLabel
-              style={{ textAlign: "center" }}
-              label={textToSend.length === 0 ? "Text to send to the API" : ""}
-            >
-              <Form.Control
-                as="textarea"
-                placeholder="Leave a comment here"
-                style={{ height: "100px" }}
-                onChange={(e) => setTextToSend(e.target.value)}
-                value={textToSend}
-              />
-            </FloatingLabel>
+            <TextSender
+              textToSend={textToSend}
+              changeText={changeText}
+              apiName={apiName}
+            ></TextSender>
           </Col>
           <Col
             className="col-8 d-flex justify-content-around mb-4"
@@ -242,13 +242,17 @@ const Main = (props) => {
                     </Dropdown.Item>
                   </DropdownButton>
                 )}
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => sendToAPI(apiName, textToSend, targetLanguage)}
-                >
-                  Submit text
-                </Button>
+                {apiName !== "textToSpeech" && apiName !== "visionAI" && (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() =>
+                      sendToAPI(apiName, textToSend, targetLanguage)
+                    }
+                  >
+                    Submit text
+                  </Button>
+                )}
               </Fragment>
             )}
           </Col>
