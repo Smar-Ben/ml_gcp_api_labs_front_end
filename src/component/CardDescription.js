@@ -1,6 +1,7 @@
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
+import CloudVision from "../img/ml_logo/cloud_vision_api.svg";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -12,6 +13,7 @@ const getTitleCard = (apiName) => {
     cnlClassify: "Cloud Natural Language API: Classify Analysis",
     textToSpeech: "Text to Speech API",
     translateAI: "Translation AI : French to English",
+    visionAPI: "Cloud Vision API",
   };
   return apiList[apiName] ?? "Choose your API";
 };
@@ -26,6 +28,7 @@ const getTitleName = (apiName) => {
     return "Cloud Natural Language API";
   else if (apiName === "textToSpeech") return "Speech-to-Text API";
   else if (apiName === "translateAI") return "Cloud Translation API";
+  else if (apiName === "visionAPI") return "Cloud Vision API";
 };
 
 const getLogo = (apiName) => {
@@ -37,6 +40,7 @@ const getLogo = (apiName) => {
   if (cloudNaturalLanguageArray.includes(apiName)) return CloudNaturalLogo;
   else if (apiName === "textToSpeech") return TextToSpeech;
   else if (apiName === "translateAI") return TranslationIALogo;
+  else if (apiName === "visionAPI") return CloudVision;
 };
 
 const getDescription = (apiName) => {
@@ -51,6 +55,8 @@ const getDescription = (apiName) => {
       "Text to Speech permet de convertir du texte en discours naturel à l'aide d'une API optimisée par les meilleures technologies d'IA de Google. Sur ce site, il est seulement possible d'avoir une voix anglaise.",
     translateAI:
       "Cloud Translation permet à vos sites Web et à vos applications de traduire dynamiquement du texte français en anglais par programmation via une API. Translation utilise un modèle de machine learning pré-entraîné de Google ou personnalisé pour traduire du texte. Sur ce site il est possible de traduire un texte (de n'importe quelle langue) en français ou en anglais",
+    visionAPI:
+      "Cloud Vision API permet d'obtenir des informations sur une image à partir d'un modèle pré-entrainé par Google",
   };
   return apiList[apiName] ?? "Choose your API";
 };
@@ -65,6 +71,7 @@ const getLink = (apiName) => {
       "https://cloud.google.com/natural-language/docs/classifying-text",
     textToSpeech: "https://cloud.google.com/text-to-speech/docs/basics",
     translateAI: "https://cloud.google.com/translate/docs/overview",
+    visionAPI: "https://cloud.google.com/vision/docs?hl=fr",
   };
   return apiList[apiName] ?? "Choose your API";
 };

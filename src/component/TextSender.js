@@ -8,7 +8,7 @@ import Work from "../img/work.png";
 const TextSender = (props) => {
   return (
     <Fragment>
-      {props.apiName === "textToSpeech" ? (
+      {props.apiName === "textToSpeech" || props.apiName === "visionAPI" ? (
         <Card className="text-center" style={{ maxWidth: "250px" }}>
           <Card.Img variant="top" src={Work} />
           <Card.Body>
@@ -19,7 +19,12 @@ const TextSender = (props) => {
             </Card.Text>
             <Button
               variant="primary"
-              href="https://cloud.google.com/text-to-speech#section-2"
+              href={
+                props.apiName === "textToSpeech"
+                  ? "https://cloud.google.com/text-to-speech#section-2"
+                  : "https://cloud.google.com/vision?hl=fr#section-2"
+              }
+              target="_blank"
             >
               Tester l'API
             </Button>

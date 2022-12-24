@@ -24,7 +24,6 @@ function Sentiment(props) {
   };
 
   const getImg = (score) => {
-    console.log(score);
     if (score <= -0.7) return Sad;
     else if (score <= -0.3) return MiSad;
     else if (score <= 0.3) return Neutral;

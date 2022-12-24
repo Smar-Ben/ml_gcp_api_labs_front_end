@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import CloudNaturalLogo from "../img/ml_logo/cloud_natural_language_api.svg";
 import TranslationIALogo from "../img/ml_logo/cloud_translation_api.svg";
 import TextToSpeech from "../img/ml_logo/text-to-speech.svg";
+import CloudVision from "../img/ml_logo/cloud_vision_api.svg";
 import React, { useState, Fragment, useEffect } from "react";
 import CardDescription from "./CardDescription";
 import Button from "react-bootstrap/Button";
@@ -20,6 +21,7 @@ const getTitleName = (apiName) => {
     cnlClassify: "Cloud Natural Language API: Classify Analysis",
     textToSpeech: "Text to Speech API",
     translateAI: "Translation AI : French to English",
+    visionAPI: "Cloud Vision API",
   };
   return apiList[apiName] ?? "Choose your API";
 };
@@ -63,7 +65,6 @@ const Main = (props) => {
         setResponseApi(response.data);
       })
       .catch((error) => {
-        console.log(error);
         setIsCalledFinish(false);
         setIsApiCalled(true);
         const response = error["response"];
@@ -83,7 +84,6 @@ const Main = (props) => {
   const [isCalledFinish, setIsCalledFinish] = useState(false);
 
   useEffect(() => {
-    console.log("foo");
     setIsApiCalled(false);
     setTextToSend("");
     setTargetLanguage("");
@@ -179,6 +179,21 @@ const Main = (props) => {
               />{" "}
               IA translate
             </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item
+              onClick={() => {
+                setApiName("visionAPI");
+              }}
+            >
+              <img
+                alt=""
+                src={CloudVision}
+                width="25"
+                height="25"
+                className="d-inline-block align-top"
+              />{" "}
+              Cloud Vision API
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>
@@ -194,7 +209,7 @@ const Main = (props) => {
           <Col
             xs={8}
             className={
-              apiName === "textToSpeech"
+              apiName === "textToSpeech" || apiName === "visionAPI"
                 ? "col-8 d-flex justify-content-around mb-4"
                 : ""
             }
@@ -242,7 +257,7 @@ const Main = (props) => {
                     </Dropdown.Item>
                   </DropdownButton>
                 )}
-                {apiName !== "textToSpeech" && apiName !== "visionAI" && (
+                {apiName !== "textToSpeech" && apiName !== "visionAPI" && (
                   <Button
                     variant="primary"
                     size="lg"
